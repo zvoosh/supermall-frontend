@@ -1,0 +1,174 @@
+import { Col, Input, Row } from "antd";
+import { Link } from "react-router";
+
+const { Search } = Input;
+
+const objects = [
+  {
+    id: 1,
+    name: "Maxi",
+    category: "Supermarket",
+    imageUrl: "/images/maxi.png",
+    discount: 20,
+  },
+  {
+    id: 2,
+    name: "Beosport",
+    category: "Sportwear",
+    imageUrl: "/images/beosport.png",
+    discount: 20,
+  },
+  {
+    id: 1,
+    name: "Maxi",
+    category: "Supermarket",
+    imageUrl: "/images/maxi.png",
+    discount: 20,
+  },
+  {
+    id: 2,
+    name: "Beosport",
+    category: "Sportwear",
+    imageUrl: "/images/beosport.png",
+    discount: 20,
+  },
+  {
+    id: 1,
+    name: "Maxi",
+    category: "Supermarket",
+    imageUrl: "/images/maxi.png",
+  },
+  {
+    id: 2,
+    name: "Beosport",
+    category: "Sportwear",
+    imageUrl: "/images/beosport.png",
+  },
+  {
+    id: 1,
+    name: "Maxi",
+    category: "Supermarket",
+    imageUrl: "/images/maxi.png",
+  },
+  {
+    id: 2,
+    name: "Beosport",
+    category: "Sportwear",
+    imageUrl: "/images/beosport.png",
+  },
+  {
+    id: 1,
+    name: "Maxi",
+    category: "Supermarket",
+    imageUrl: "/images/maxi.png",
+  },
+  {
+    id: 2,
+    name: "Beosport",
+    category: "Sportwear",
+    imageUrl: "/images/beosport.png",
+  },
+  {
+    id: 1,
+    name: "Maxi",
+    category: "Supermarket",
+    imageUrl: "/images/maxi.png",
+  },
+  {
+    id: 2,
+    name: "Beosport",
+    category: "Sportwear",
+    imageUrl: "/images/beosport.png",
+  },
+  {
+    id: 1,
+    name: "Maxi",
+    category: "Supermarket",
+    imageUrl: "/images/maxi.png",
+  },
+  {
+    id: 2,
+    name: "Beosport",
+    category: "Sportwear",
+    imageUrl: "/images/beosport.png",
+  },
+  {
+    id: 1,
+    name: "Maxi",
+    category: "Supermarket",
+    imageUrl: "/images/maxi.png",
+  },
+  {
+    id: 2,
+    name: "Beosport",
+    category: "Sportwear",
+    imageUrl: "/images/beosport.png",
+  },
+  {
+    id: 1,
+    name: "Maxi",
+    category: "Supermarket",
+    imageUrl: "/images/maxi.png",
+  },
+  {
+    id: 2,
+    name: "Beosport",
+    category: "Sportwear",
+    imageUrl: "/images/beosport.png",
+  },
+];
+
+const UserActionsPage = () => {
+  return (
+    <div className="flex flex-col gap-5 w-screen text-black p-5 pb-0">
+      <Row justify={"end"} className="flex items-center">
+        <Col xs={24} xxl={4} className="w-full">
+          <Search
+            placeholder="Search stores..."
+            onSearch={(values) => console.log(values)}
+            enterButton
+          />
+        </Col>
+      </Row>
+
+      <div className="w-full h-full relative">
+        {/* Grid */}
+        <div className="flex-grow overflow-y-auto p-4 sm:ml-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-7">
+            {objects
+              ?.filter((obj) => obj.discount && obj.discount > 0) // ✅ only show discounted items
+              .map((obj) => (
+                <Link
+                  key={obj.id}
+                  to={`/user/stores/${obj.id}`}
+                  className="relative group bg-gray-50 rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center"
+                >
+                  <div className="absolute top-3 right-3 bg-red-500 text-white text-xs sm:text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                    -{obj.discount}%
+                  </div>
+
+                  <div className="w-28 h-28 2xl:w-40 2xl:h-40 flex justify-center items-center mb-4">
+                    <img
+                      src={obj.imageUrl}
+                      alt={obj.name}
+                      className="object-contain w-full h-full group-hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
+
+                  <div className="flex flex-col items-center">
+                    <span className="text-lg font-semibold text-gray-800 group-hover:text-blue-600">
+                      {obj.name}
+                    </span>
+                    <span className="text-sm text-gray-500 mt-1">
+                      {obj.category}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+export { UserActionsPage };
