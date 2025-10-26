@@ -82,10 +82,12 @@ const LoginPage = () => {
                   </Col>
                 </Row>
                 <Row justify="end" className="flex gap-5 items-center">
-                  <Link to={"/register"}>
-                    Register
-                  </Link>
-                  <Button htmlType="submit" type="primary">Login</Button>
+                  <Link to={"/register"}>Register</Link>
+                  <Link to={"/admin/stores"}>admin</Link>
+                  <Link to={"/user/stores"}>user</Link>
+                  <Button htmlType="submit" type="primary">
+                    Login
+                  </Button>
                 </Row>
               </Form>
             </div>
@@ -133,16 +135,12 @@ const LoginPage = () => {
                 </Col>
               </Row>
               <Row justify="end" className="flex gap-5 items-center">
-                <Link to={"/register"}>
-                  Register
-                </Link>
-                <Link to={"/admin/stores"}>
-                  admin
-                </Link>
-                <Link to={"/user/stores"}>
-                  user
-                </Link>
-                <Button htmlType="submit" type="primary">Login</Button>
+                <Link to={"/register"}>Register</Link>
+                <Link to={"/admin/stores"}>admin</Link>
+                <Link to={"/user/stores"}>user</Link>
+                <Button htmlType="submit" type="primary">
+                  Login
+                </Button>
               </Row>
             </Form>
           </div>
