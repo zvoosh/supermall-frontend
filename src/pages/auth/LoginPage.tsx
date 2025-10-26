@@ -136,6 +136,12 @@ const LoginPage = () => {
                 <Link to={"/register"}>
                   Register
                 </Link>
+                <Link to={"/admin/stores"}>
+                  admin
+                </Link>
+                <Link to={"/user/stores"}>
+                  user
+                </Link>
                 <Button htmlType="submit" type="primary">Login</Button>
               </Row>
             </Form>
