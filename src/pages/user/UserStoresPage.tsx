@@ -234,7 +234,7 @@ const UserStoresPage = () => {
                 to={`/user/stores/${obj.id}`}
                 className="relative group bg-gray-50 rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center"
               >
-                {obj.discount && (
+                {obj.discount && obj.discount > 0 && (
                   <div className="absolute top-3 right-3 bg-red-500 text-white text-xs sm:text-sm font-semibold px-3 py-1 rounded-full shadow-md z-10">
                     -{obj.discount}%
                   </div>

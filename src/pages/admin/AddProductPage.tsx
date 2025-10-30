@@ -1,8 +1,41 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, message, Row, Upload } from "antd";
+import { useProductMutation } from "../../api";
+import { useNavigate, useParams } from "react-router";
 
 const AddProductPage = () => {
   const [newproduct] = Form.useForm();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { mutate: productMutation } = useProductMutation();
+
+  const onFinish = (values: {
+    name: string;
+    img: string;
+    price: number;
+    discount: number;
+    description: string;
+    storeId: string;
+  }) => {
+    const file = newproduct.getFieldsValue().img.file;
+
+    if (!(file instanceof File)) {
+      message.error("Image file is missing or invalid");
+      return;
+    }
+
+    const payload = {
+      name: values.name,
+      description: values.description,
+      price: values.price,
+      discount: values.discount,
+      img: file,
+      storeId: id!,
+    };
+
+    productMutation(payload);
+    navigate(-1);
+  };
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center text-black p-5">
@@ -15,6 +48,7 @@ const AddProductPage = () => {
           layout="vertical"
           autoComplete="off"
           className="w-full"
+          onFinish={onFinish}
         >
           <Row gutter={[16, 16]}>
             {/* Product name */}
@@ -33,7 +67,7 @@ const AddProductPage = () => {
                   },
                 ]}
               >
-                <Input placeholder="Product name..." />
+                <Input placeholder="Product name..." maxLength={31}/>
               </Form.Item>
             </Col>
 
@@ -100,49 +134,20 @@ const AddProductPage = () => {
             {/* Upload image */}
             <Col xs={24} sm={12}>
               <Form.Item
-                name="image"
-                label="Product image:"
-                rules={[
-                  {
-                    required: true,
-                    message: (
-                      <span className="text-white">
-                        Please upload product's image
-                      </span>
-                    ),
-                  },
-                ]}
+                name="img"
+                label="Product image"
+                rules={[{ required: true, message: "Please upload an image" }]}
               >
                 <Upload
-                  name="image"
-                  action={"api/upload/image"}
                   maxCount={1}
                   showUploadList={true}
-                  accept="image/*"
-                  onChange={(info) => {
-                    const { status } = info.file;
-                    if (status === "done") {
-                      message.success(
-                        `${info.file.name} uploaded successfully`
-                      );
-                    } else if (status === "error") {
-                      message.error(`${info.file.name} upload failed`);
-                    }
-                  }}
                   beforeUpload={(file) => {
-                    const isImage = file.type.startsWith("image/");
-                    if (!isImage) {
-                      message.error("Only image files are allowed!");
-                    }
-                    return isImage;
+                    console.log("file", file);
+                    newproduct.setFieldsValue({ img: file });
+                    return false;
                   }}
                 >
-                  <Button
-                    icon={<UploadOutlined />}
-                    className="w-full sm:w-auto"
-                  >
-                    Upload image
-                  </Button>
+                  <Button icon={<UploadOutlined />}>Upload image</Button>
                 </Upload>
               </Form.Item>
             </Col>

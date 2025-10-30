@@ -1,10 +1,10 @@
 import { Navigate } from "react-router";
 
-const ProtectedRoute = ({ children }: {children: React.ReactNode}) => {
-  const user = sessionStorage.getItem("logedInUser");
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const user = sessionStorage.getItem("admin");
 
-  if (!user) {
-    return <Navigate to="/" replace />;
+  if (user !== "loggedin") {
+    return <Navigate to="/login" replace />;
   }
 
   return children;

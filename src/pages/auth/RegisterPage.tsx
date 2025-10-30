@@ -7,8 +7,21 @@ import { Button, Carousel, Col, Form, Input, Row } from "antd";
 import { Link } from "react-router";
 import motherImage from "/images/mother.png";
 import shoppingImage from "/images/shopping.png";
+import { useRegisterAdminMutation } from "../../api";
 const RegisterPage = () => {
   const [register] = Form.useForm();
+
+  const { mutate: registerAdmin } = useRegisterAdminMutation();
+
+  const onFinish = (values: {
+    fullname: string;
+    email: string;
+    username: string;
+    password: string;
+  }) => {
+    registerAdmin(values);
+  };
+
   return (
     <div className="w-full h-screen bg-gray-800 text-white flex flex-col justify-between items-center relative">
       <div className="w-full h-full flex flex-col lg:flex-row justify-between items-center">
@@ -44,11 +57,9 @@ const RegisterPage = () => {
               <Form
                 form={register}
                 layout="vertical"
-                name="basic"
+                name="register"
                 autoComplete="off"
-                onFinish={(values) => {
-                  console.log(values);
-                }}
+                onFinish={onFinish}
               >
                 <Col xs={24}>
                   <Form.Item
@@ -129,10 +140,10 @@ const RegisterPage = () => {
                   </Form.Item>
                 </Col>
                 <Row justify="end" className="flex gap-5 items-center">
-                  <Link to={"/"}>
-                    Login
-                  </Link>
-                  <Button htmlType="submit" type="primary">Register</Button>
+                  <Link to={"/"}>Login</Link>
+                  <Button htmlType="submit" type="primary">
+                    Register
+                  </Button>
                 </Row>
               </Form>
             </div>
@@ -145,11 +156,9 @@ const RegisterPage = () => {
             <Form
               form={register}
               layout="vertical"
-              name="basic"
+              name="registerDesktop"
               autoComplete="off"
-              onFinish={(values) => {
-                console.log(values);
-              }}
+              onFinish={onFinish}
             >
               <Col xs={24}>
                 <Form.Item
@@ -229,10 +238,10 @@ const RegisterPage = () => {
                 </Form.Item>
               </Col>
               <Row justify="end" className="flex gap-5 items-center">
-                <Link to={"/"}>
-                  Login
-                </Link>
-                <Button htmlType="submit" type="primary">Register</Button>
+                <Link to={"/login"}>Login</Link>
+                <Button htmlType="submit" type="primary">
+                  Register
+                </Button>
               </Row>
             </Form>
           </div>

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import "./App.css";
 import {
   AddProductPage,
@@ -15,15 +15,23 @@ import {
   UserStorePage,
   UserStoresPage,
 } from "./pages";
-import { PageLayout } from "./components";
+import { PageLayout, ProtectedRoute } from "./components";
 
 function App() {
   return (
     <div className="w-screen h-screen">
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<Navigate to="/user/stores/" replace />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
-        <Route path="/admin" element={<PageLayout />}>
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <PageLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="stores" element={<StoreMenagerPage />} />
           <Route path="stores/:id" element={<StorePage />} />
           <Route
@@ -34,7 +42,14 @@ function App() {
           <Route path="addstore" element={<AddStorePage />} />
           <Route path="editstore/:id" element={<EditStorePage />} />
         </Route>
-        <Route path="/user" element={<PageLayout />}>
+        <Route
+          path="/user"
+          element={
+            <ProtectedRoute>
+              <PageLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="stores" element={<UserStoresPage />} />
           <Route path="stores/:id" element={<UserStorePage />} />
           <Route

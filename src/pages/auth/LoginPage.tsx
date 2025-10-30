@@ -4,11 +4,28 @@ import {
   TwitterOutlined,
 } from "@ant-design/icons";
 import { Button, Carousel, Col, Form, Input, Row } from "antd";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import motherImage from "/images/mother.png";
 import shoppingImage from "/images/shopping.png";
+import { useLoginAdminMutation } from "../../api";
+import { useEffect } from "react";
+
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [login] = Form.useForm();
+  const { mutate: loginAdmin, isSuccess } = useLoginAdminMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/admin/stores/");
+      sessionStorage.setItem("admin", "loggedin");
+    }
+  }, [isSuccess]);
+
+  const onFinish = (values: { username: string; password: string }) => {
+    loginAdmin(values);
+  };
+
   return (
     <div className="w-full h-screen bg-gray-700 text-white flex flex-col justify-between items-center relative">
       <div className="w-full h-full flex flex-col lg:flex-row justify-between items-center">
@@ -44,9 +61,9 @@ const LoginPage = () => {
               <Form
                 form={login}
                 layout="vertical"
-                name="basic"
+                name="login"
                 autoComplete="off"
-                onFinish={(values) => console.log(values)}
+                onFinish={onFinish}
               >
                 <Row gutter={[24, 24]}>
                   <Col xs={24}>
@@ -83,8 +100,6 @@ const LoginPage = () => {
                 </Row>
                 <Row justify="end" className="flex gap-5 items-center">
                   <Link to={"/register"}>Register</Link>
-                  <Link to={"/admin/stores"}>admin</Link>
-                  <Link to={"/user/stores"}>user</Link>
                   <Button htmlType="submit" type="primary">
                     Login
                   </Button>
@@ -100,9 +115,9 @@ const LoginPage = () => {
             <Form
               form={login}
               layout="vertical"
-              name="basic"
+              name="loginDesktop"
               autoComplete="off"
-              onFinish={(values) => console.log(values)}
+              onFinish={onFinish}
             >
               <Row gutter={[24, 24]}>
                 <Col xs={24}>
@@ -136,8 +151,6 @@ const LoginPage = () => {
               </Row>
               <Row justify="end" className="flex gap-5 items-center">
                 <Link to={"/register"}>Register</Link>
-                <Link to={"/admin/stores"}>admin</Link>
-                <Link to={"/user/stores"}>user</Link>
                 <Button htmlType="submit" type="primary">
                   Login
                 </Button>
