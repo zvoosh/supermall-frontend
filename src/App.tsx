@@ -42,14 +42,7 @@ function App() {
           <Route path="addstore" element={<AddStorePage />} />
           <Route path="editstore/:id" element={<EditStorePage />} />
         </Route>
-        <Route
-          path="/user"
-          element={
-            <ProtectedRoute>
-              <PageLayout />
-            </ProtectedRoute>
-          }
-        >
+        <Route path="/user" element={<PageLayout />}>
           <Route path="stores" element={<UserStoresPage />} />
           <Route path="stores/:id" element={<UserStorePage />} />
           <Route

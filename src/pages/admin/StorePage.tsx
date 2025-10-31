@@ -13,6 +13,7 @@ const StorePage = () => {
 
   const { data, isLoading } = useStoreIdQuery(id!);
   const { mutate: deleteProductMutation } = useDeleteProductMutation();
+  
   const getDiscountedPrice = (
     product: {
       id: string;
@@ -67,6 +68,7 @@ const StorePage = () => {
     console.log("id", id);
     deleteProductMutation({ id: productId, storeId: id });
   };
+
   const combinedDiscount = (productDiscount: number, storeDiscount: number) => {
     return productDiscount && storeDiscount
       ? productDiscount + storeDiscount
@@ -140,7 +142,7 @@ const StorePage = () => {
                     <img src={product.img} alt={product.name} />
                   </div>
                   <div className="text-center mt-5">
-                    <Link to={`/admin/stores/${id}/product/${product.id}`}>
+                    <Link to={`/admin/stores/${id}/product/${product.id}`} state={data.discount}>
                       <p className="text-xl flex gap-2 justify-center break-words ">
                         {product.name}
                       </p>

@@ -1,162 +1,78 @@
 import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
-import { Col, Input, Row } from "antd";
+import { Col, Input, Row, Spin } from "antd";
 import { useState } from "react";
 import { Link } from "react-router";
+import { useStoreQuery } from "../../api";
 
-const { Search } = Input;
-
-const objects = [
-  {
-    id: 1,
-    name: "Maxi",
-    category: "Supermarket",
-    imageUrl: "/images/maxi.png",
-    discount: 20,
-  },
-  {
-    id: 1,
-    name: "Maxi",
-    category: "Supermarket",
-    imageUrl: "/images/maxi.png",
-  },
-  {
-    id: 2,
-    name: "Beosport",
-    category: "Sportwear",
-    imageUrl: "/images/beosport.png",
-  },
-  {
-    id: 1,
-    name: "Maxi",
-    category: "Supermarket",
-    imageUrl: "/images/maxi.png",
-  },
-  {
-    id: 2,
-    name: "Beosport",
-    category: "Sportwear",
-    imageUrl: "/images/beosport.png",
-  },
-  {
-    id: 1,
-    name: "Maxi",
-    category: "Supermarket",
-    imageUrl: "/images/maxi.png",
-  },
-  {
-    id: 2,
-    name: "Beosport",
-    category: "Sportwear",
-    imageUrl: "/images/beosport.png",
-  },
-  {
-    id: 1,
-    name: "Maxi",
-    category: "Supermarket",
-    imageUrl: "/images/maxi.png",
-    discount: 20,
-  },
-  {
-    id: 1,
-    name: "Maxi",
-    category: "Supermarket",
-    imageUrl: "/images/maxi.png",
-  },
-  {
-    id: 2,
-    name: "Beosport",
-    category: "Sportwear",
-    imageUrl: "/images/beosport.png",
-  },
-  {
-    id: 1,
-    name: "Maxi",
-    category: "Supermarket",
-    imageUrl: "/images/maxi.png",
-  },
-  {
-    id: 2,
-    name: "Beosport",
-    category: "Sportwear",
-    imageUrl: "/images/beosport.png",
-    discount: 20,
-  },
-  {
-    id: 2,
-    name: "Beosport",
-    category: "Sportwear",
-    imageUrl: "/images/beosport.png",
-  },
-  {
-    id: 1,
-    name: "Maxi",
-    category: "Supermarket",
-    imageUrl: "/images/maxi.png",
-  },
-  {
-    id: 2,
-    name: "Beosport",
-    category: "Sportwear",
-    imageUrl: "/images/beosport.png",
-  },
-  {
-    id: 1,
-    name: "Maxi",
-    category: "Supermarket",
-    imageUrl: "/images/maxi.png",
-  },
-  {
-    id: 2,
-    name: "Beosport",
-    category: "Sportwear",
-    imageUrl: "/images/beosport.png",
-  },
-  {
-    id: 2,
-    name: "Beosport",
-    category: "Sportwear",
-    imageUrl: "/images/beosport.png",
-    discount: 20,
-  },
-  {
-    id: 1,
-    name: "Maxi",
-    category: "Supermarket",
-    imageUrl: "/images/maxi.png",
-  },
-  {
-    id: 2,
-    name: "Beosport",
-    category: "Sportwear",
-    imageUrl: "/images/beosport.png",
-  },
-  {
-    id: 1,
-    name: "Maxi",
-    category: "Supermarket",
-    imageUrl: "/images/maxi.png",
-  },
-  {
-    id: 2,
-    name: "Beosport",
-    category: "Sportwear",
-    imageUrl: "/images/beosport.png",
-  },
+const categories = [
+  { label: "All shops", value: "all_shops" },
+  { label: "Accessories", value: "accessories" },
+  { label: "Cinema", value: "cinema" },
+  { label: "Kids", value: "kids" },
+  { label: "Underwear", value: "underwear" },
+  { label: "Electronics", value: "electronics" },
+  { label: "Gastro", value: "gastro" },
+  { label: "Coffee shops & restaurants", value: "coffee_shops_&_restaurants" },
+  { label: "Books & multimedia", value: "books_&_multimedia" },
+  { label: "Beauty & health", value: "beauty_&_health" },
+  { label: "Fashion", value: "fashion" },
+  { label: "Foot wear", value: "foot_wear" },
+  { label: "Specialized shops", value: "specialized_shops" },
+  { label: "Sport", value: "sport" },
+  { label: "All for home", value: "all_for_home" },
+  { label: "Services", value: "services" },
 ];
 
 const UserStoresPage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all_shops");
+  const [selectedFloor, setSelectedFloor] = useState<number | null>(null);
+  const { data, isLoading } = useStoreQuery();
+
+  const filtered =
+    Array.isArray(data) && data.length > 0
+      ? data.filter((store) => {
+          const matchesSearch = store.name.toLowerCase().includes(searchTerm);
+          const matchesCategory =
+            selectedCategory === "all_shops" ||
+            store.subcategory === selectedCategory;
+          const matchesFloor =
+            selectedFloor === null || store.floor === selectedFloor;
+
+          return matchesSearch && matchesCategory && matchesFloor;
+        })
+      : [];
+
+  if (isLoading) {
+    <div style={{ textAlign: "center", padding: "2rem" }}>
+      <Spin tip="Loading..." size="large" />
+    </div>;
+  }
   return (
     <div className="flex flex-col gap-5 w-screen text-black p-5 pb-0">
       <Row justify={"end"} gutter={[12, 12]} className="flex items-center">
         <Col xs={24} xxl={4} className="w-full">
-          <Input placeholder="Floor..." type="number" min={0} max={4} />
+          <Input
+            placeholder="Floor..."
+            type="number"
+            min={0}
+            max={4}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSelectedFloor(value === "" ? null : Number(value));
+            }}
+            allowClear
+          />
         </Col>
         <Col xs={24} xxl={4} className="w-full">
-          <Search
+          <Input
             placeholder="Search stores..."
-            onSearch={(values) => console.log(values)}
-            enterButton
+            onChange={(e) => {
+              const value = e.target.value;
+              setSearchTerm(value.toLowerCase());
+            }}
+            allowClear
           />
         </Col>
       </Row>
@@ -190,29 +106,18 @@ const UserStoresPage = () => {
             sm:w-40 lg:w-44 2xl:w-66 flex-shrink-0 flex flex-col gap-5 p-4
           `}
         >
-          {[
-            "All shops",
-            "Accessories",
-            "Cinema",
-            "Kids",
-            "Underwear",
-            "Electronics",
-            "Gastro",
-            "Coffee shops & restaurants",
-            "Books & multimedia",
-            "Beauty & health",
-            "Fashion",
-            "Foot wear",
-            "Specialized shops",
-            "Sport",
-            "All for home",
-            "Services",
-          ].map((category, i) => (
+          {categories.map(({ label, value }) => (
             <div
-              key={i}
-              className="cursor-pointer hover:text-blue-600 transition-colors"
+              key={value}
+              className={`cursor-pointer hover:text-blue-600 transition-colors ${
+                selectedCategory === value ? "text-blue-600 font-semibold" : ""
+              }`}
+              onClick={() => {
+                setSelectedCategory(value);
+                setIsSidebarOpen(false);
+              }}
             >
-              {category}
+              {label}
             </div>
           ))}
         </div>
@@ -227,38 +132,59 @@ const UserStoresPage = () => {
 
         {/* Grid */}
         <div className="flex-grow overflow-y-auto p-4 sm:ml-0">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
-            {objects?.map((obj) => (
-              <Link
-                key={obj.id}
-                to={`/user/stores/${obj.id}`}
-                className="relative group bg-gray-50 rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center"
-              >
-                {obj.discount && obj.discount > 0 && (
-                  <div className="absolute top-3 right-3 bg-red-500 text-white text-xs sm:text-sm font-semibold px-3 py-1 rounded-full shadow-md z-10">
-                    -{obj.discount}%
-                  </div>
-                )}
+          {filtered && filtered.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
+              {filtered?.map(
+                ({
+                  id,
+                  name,
+                  img,
+                  category,
+                  discount,
+                }: {
+                  id: string;
+                  name: string;
+                  img: string;
+                  category: string;
+                  discount: number;
+                }) => (
+                  <Link
+                    key={id}
+                    to={`/user/stores/${id}`}
+                    className="relative group bg-gray-50 rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center"
+                  >
+                    {discount > 0 && (
+                      <div className="absolute top-3 right-3 bg-red-500 text-white text-xs sm:text-sm font-semibold px-3 py-1 rounded-full shadow-md z-10">
+                        -{discount}%
+                      </div>
+                    )}
 
-                <div className="w-28 h-28 2xl:w-40 2xl:h-40 flex justify-center items-center mb-4">
-                  <img
-                    src={obj.imageUrl}
-                    alt={obj.name}
-                    className="object-contain w-full h-full group-hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
+                    <div className="w-28 h-28 2xl:w-40 2xl:h-40 flex justify-center items-center mb-4">
+                      <img
+                        src={img}
+                        alt={name}
+                        className="object-contain w-full h-full group-hover:scale-110 transition-transform duration-300"
+                      />
+                    </div>
 
-                <div className="flex flex-col items-center">
-                  <span className="text-lg font-semibold text-gray-800 group-hover:text-blue-600">
-                    {obj.name}
-                  </span>
-                  <span className="text-sm text-gray-500 mt-1">
-                    {obj.category}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
+                    <div className="flex flex-col items-center">
+                      <span className="text-lg font-semibold text-gray-800 group-hover:text-blue-600">
+                        {name}
+                      </span>
+                      <span className="text-sm text-gray-500 mt-1">
+                        {category}
+                      </span>
+                    </div>
+                  </Link>
+                )
+              )}
+            </div>
+          ) : (
+            <div className="w-full text-2xl text-center font-semibold">
+              Hmm... nothing here yet! Maybe the perfect shop is just around the
+              corner.
+            </div>
+          )}
         </div>
       </div>
     </div>

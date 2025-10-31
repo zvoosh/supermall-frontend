@@ -18,6 +18,7 @@ const ProductPage = () => {
   const { data, isLoading } = useProductIdQuery(productId!);
   const { mutate: editProductMutation } = useEditProductMutation();
   const { mutate: deleteProductMutation } = useDeleteProductMutation();
+
   useEffect(() => {
     product.setFieldsValue(data);
   }, [data]);
@@ -112,7 +113,7 @@ const ProductPage = () => {
                   </Col>
                   <Col xs={24}>
                     <Form.Item name="name" label="Product name:">
-                      <Input placeholder="Product name..." maxLength={31}/>
+                      <Input placeholder="Product name..." maxLength={31} />
                     </Form.Item>
                   </Col>
                   <Col xs={24}>

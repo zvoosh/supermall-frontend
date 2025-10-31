@@ -186,7 +186,7 @@ const Header = () => {
           <Button
             type="primary"
             onClick={() => {
-              navigate("/login");
+              navigate("/");
               sessionStorage.setItem("admin", "");
             }}
           >
