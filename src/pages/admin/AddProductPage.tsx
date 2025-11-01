@@ -2,6 +2,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, message, Row, Upload } from "antd";
 import { useProductMutation } from "../../api";
 import { useNavigate, useParams } from "react-router";
+import { UploadMultiple } from "../../components/UploadMultiple";
 
 const AddProductPage = () => {
   const [newproduct] = Form.useForm();
@@ -67,7 +68,7 @@ const AddProductPage = () => {
                   },
                 ]}
               >
-                <Input placeholder="Product name..." maxLength={31}/>
+                <Input placeholder="Product name..." maxLength={31} />
               </Form.Item>
             </Col>
 
@@ -150,6 +151,9 @@ const AddProductPage = () => {
                   <Button icon={<UploadOutlined />}>Upload image</Button>
                 </Upload>
               </Form.Item>
+            </Col>
+            <Col xs={24} sm={12}>
+              <UploadMultiple />
             </Col>
           </Row>
 

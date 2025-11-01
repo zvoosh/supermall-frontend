@@ -76,7 +76,6 @@ const UserStoresPage = () => {
           />
         </Col>
       </Row>
-      {/* Toggle Button for Mobile */}
       <button
         className="sm:hidden flex items-center gap-2 bg-gray-100 rounded-xl p-2 w-fit mt-3 hover:bg-gray-200 transition-all"
         onClick={() => setIsSidebarOpen((prev) => !prev)}
@@ -122,7 +121,6 @@ const UserStoresPage = () => {
           ))}
         </div>
 
-        {/* Overlay for mobile when sidebar is open */}
         {isSidebarOpen && (
           <div
             className="fixed inset-0 bg-black/40 sm:hidden z-30"

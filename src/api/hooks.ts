@@ -4,7 +4,7 @@ export const registerHook = async (object: {
   password: string;
   email: string;
 }) => {
-  const res = await fetch(`http://localhost:3001/api/admin`, {
+  const res = await fetch(`https://supermall.backend.dusanprogram.eu/api/admin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export const loginHook = async (object: {
   username: string;
   password: string;
 }) => {
-  const res = await fetch(`http://localhost:3001/api/login`, {
+  const res = await fetch(`https://supermall.backend.dusanprogram.eu/api/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -33,13 +33,13 @@ export const loginHook = async (object: {
 };
 
 export const fetchStores = async () => {
-  const res = await fetch(`http://localhost:3001/api/stores`);
+  const res = await fetch(`https://supermall.backend.dusanprogram.eu/api/stores`);
   if (!res.ok) throw new Error("Failed to fetch stores");
   return await res.json();
 };
 
 export const fetchProducts = async () => {
-  const res = await fetch(`http://localhost:3001/api/products`);
+  const res = await fetch(`https://supermall.backend.dusanprogram.eu/api/products`);
   if (!res.ok) throw new Error("Failed to fetch products");
   return await res.json();
 };
@@ -60,7 +60,7 @@ export const addStore = async (object: {
   formData.append("floor", object.floor.toString());
   formData.append("img", object.img);
 
-  const res = await fetch("http://localhost:3001/api/store", {
+  const res = await fetch("https://supermall.backend.dusanprogram.eu/api/store", {
     method: "POST",
     body: formData,
   });
@@ -70,7 +70,7 @@ export const addStore = async (object: {
 };
 
 export const fetchStoreById = async (id: string) => {
-  const res = await fetch(`http://localhost:3001/api/stores/${id}`);
+  const res = await fetch(`https://supermall.backend.dusanprogram.eu/api/stores/${id}`);
   if (!res.ok) throw new Error("Failed to fetch store");
   return await res.json();
 };
@@ -91,7 +91,7 @@ export const addProduct = async (object: {
   formData.append("img", object.img);
   formData.append("storeId", object.storeId);
 
-  const res = await fetch("http://localhost:3001/api/product", {
+  const res = await fetch("https://supermall.backend.dusanprogram.eu/api/product", {
     method: "POST",
     body: formData,
   });
@@ -101,7 +101,7 @@ export const addProduct = async (object: {
 };
 
 export const fetchProductById = async (id: string) => {
-  const res = await fetch(`http://localhost:3001/api/product/${id}`);
+  const res = await fetch(`https://supermall.backend.dusanprogram.eu/api/product/${id}`);
   if (!res.ok) throw new Error("Failed to fetch store");
   return await res.json();
 };
@@ -120,7 +120,7 @@ export const editProduct = async (object: {
   formData.append("discount", object.discount.toString());
   formData.append("price", object.price.toString());
 
-  const res = await fetch(`http://localhost:3001/api/product/${object.id}`, {
+  const res = await fetch(`https://supermall.backend.dusanprogram.eu/api/product/${object.id}`, {
     method: "PUT",
     body: formData,
   });
@@ -147,7 +147,7 @@ export const editStore = async (object: {
   formData.append("floor", object.floor.toString());
   if (object.img) formData.append("img", object.img);
 
-  const res = await fetch(`http://localhost:3001/api/stores/${object.id}`, {
+  const res = await fetch(`https://supermall.backend.dusanprogram.eu/api/stores/${object.id}`, {
     method: "PUT",
     body: formData,
   });
@@ -157,7 +157,7 @@ export const editStore = async (object: {
 };
 
 export const deleteStore = async (id: string) => {
-  const res = await fetch(`http://localhost:3001/api/stores/${id}`, {
+  const res = await fetch(`https://supermall.backend.dusanprogram.eu/api/stores/${id}`, {
     method: "DELETE",
   });
 
@@ -166,7 +166,7 @@ export const deleteStore = async (id: string) => {
 };
 
 export const deleteProduct = async (id: string) => {
-  const res = await fetch(`http://localhost:3001/api/product/${id}`, {
+  const res = await fetch(`https://supermall.backend.dusanprogram.eu/api/product/${id}`, {
     method: "DELETE",
   });
 

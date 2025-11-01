@@ -8,6 +8,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: products = [] } = useProductsQuery();
   const [options, setOptions] = useState([]);
+  const user = sessionStorage.getItem("admin");
 
   const handleSearch = (value: string) => {
     const filtered = products
@@ -35,7 +36,7 @@ const Header = () => {
           value: product.name,
           label: (
             <Link
-              to={`/admin/stores/${product.storeId}/product/${product.id}`}
+              to={user ? `/admin/stores/${product.storeId}/product/${product.id}` : `/user/stores/${product.storeId}/product/${product.id}`}
               className="flex items-center gap-2"
             >
               <img

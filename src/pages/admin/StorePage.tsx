@@ -13,7 +13,7 @@ const StorePage = () => {
 
   const { data, isLoading } = useStoreIdQuery(id!);
   const { mutate: deleteProductMutation } = useDeleteProductMutation();
-  
+
   const getDiscountedPrice = (
     product: {
       id: string;
@@ -28,7 +28,6 @@ const StorePage = () => {
     const base = product.price;
     const productDiscount = product.discount || 0;
 
-    // Combine discounts however you want
     const totalDiscount = productDiscount + storeDiscount;
 
     return +(base * (1 - totalDiscount / 100)).toFixed(2);
@@ -138,24 +137,36 @@ const StorePage = () => {
                   </div>
                 )}
                 <div className="w-fit h-fit font-semibold rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center flex-1 mb-5">
-                  <div className="w-50 2xl:w-78 bg-gray-200">
-                    <img src={product.img} alt={product.name} />
+                  <div className="w-50 2xl:w-[300px] 2xl:h-[300px] bg-gray-200 flex items-center justify-center">
+                    <img
+                      src={product.img}
+                      alt={product.name}
+                      className="max-w-full max-h-full"
+                    />
                   </div>
+
                   <div className="text-center mt-5">
-                    <Link to={`/admin/stores/${id}/product/${product.id}`} state={data.discount}>
+                    <Link
+                      to={`/admin/stores/${id}/product/${product.id}`}
+                      state={data.discount}
+                    >
                       <p className="text-xl flex gap-2 justify-center break-words ">
                         {product.name}
                       </p>
                       <p
                         className={`mt-5 text-gray-400 text-sm sm:text-base lg:text-lg ${
-                          product.discount || data.discount > 0 ? "line-through" : ""
+                          product.discount || data.discount > 0
+                            ? "line-through"
+                            : ""
                         }`}
                       >
                         {product.price}$
                       </p>
                       <p
                         className={`mt-1 text-green-600 text-md sm:text-base lg:text-xl ${
-                          product.discount || data.discount > 0 ? "block" : "invisible"
+                          product.discount || data.discount > 0
+                            ? "block"
+                            : "invisible"
                         }`}
                       >
                         {getDiscountedPrice(product, data.discount)}$

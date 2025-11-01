@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router";
 import { useStoreIdQuery } from "../../api";
 import { useState, type JSX } from "react";
 
-
 const UserStorePage = () => {
   const [options, setOptions] = useState<
     { value: string; label: JSX.Element }[]
@@ -25,7 +24,6 @@ const UserStorePage = () => {
     const base = product.price;
     const productDiscount = product.discount || 0;
 
-    // Combine discounts however you want
     const totalDiscount = productDiscount + storeDiscount;
 
     return +(base * (1 - totalDiscount / 100)).toFixed(2);
@@ -73,7 +71,6 @@ const UserStorePage = () => {
   }
   return (
     <div className="w-full min-h-screen h-full text-black p-5 pb-10">
-      {/* my margin bottom isn't working on more product items */}
       {data ? (
         <>
           <div className="flex justify-center items-center flex-col">
@@ -84,15 +81,12 @@ const UserStorePage = () => {
                 className="object-contain w-full h-full group-hover:scale-110 transition-transform duration-300"
               />
             </div>
-            <h1 className="text-2xl font-bold mt-1">
-              {data.name}
-            </h1>
+            <h1 className="text-2xl font-bold mt-1">{data.name}</h1>
             <p className="text-sm sm:text-base lg:text-lg font-medium text-gray-500">
               {data.category}
             </p>
           </div>
           <div className="mt-5 flex flex-col items-end w-full">
-
             {/* Search and Select */}
             <div className="mt-5 flex flex-col lg:flex-row 2xl:flex-row gap-5 w-full max-w-5xl ">
               <div className="flex justify-end w-full">
@@ -117,11 +111,13 @@ const UserStorePage = () => {
                   </div>
                 )}
                 <div className="w-fit h-fit font-semibold rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center flex-1 mb-5">
-                  <div className="w-50 2xl:w-78 bg-gray-200">
+                  <div className="w-50 2xl:w-[300px] 2xl:h-[300px] bg-gray-200 flex items-center justify-center">
                     <img src={product.img} alt={product.name} />
                   </div>
                   <div className="text-center mt-5">
-                    <Link to={`/user/stores/${id}/product/${product.id}`} state={data.discount}>
+                    <Link
+                      to={`/user/stores/${id}/product/${product.id}`}
+                    >
                       <p className="text-xl flex gap-2 justify-center break-words ">
                         {product.name}
                       </p>
