@@ -150,7 +150,7 @@ const LoginPage = () => {
                 </Col>
               </Row>
               <Row justify="end" className="flex gap-5 items-center">
-                <Link to={"/register"}>Register</Link>
+                {/* <Link to={"/register"}>Register</Link> */}
                 <Button htmlType="submit" type="primary">
                   Login
                 </Button>

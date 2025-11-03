@@ -1,5 +1,5 @@
 import { Button, Row, Spin } from "antd";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useProductIdQuery, useStoreIdQuery } from "../../api";
 
 const UserProductPage = () => {
@@ -37,7 +37,7 @@ const UserProductPage = () => {
       {data && store ? (
         <>
           <div className="w-4/5 flex flex-col lg:flex-row items-center justify-center gap-6 2xl:mt-15">
-            <div className="w-full lg:w-1/2 xl:w-2/5 bg-gray-100 rounded-xl overflow-hidden shadow-md p-4 flex justify-center items-center">
+            <div className="w-full lg:w-1/2 xl:w-[800px] xl:h-[500px] bg-gray-100 rounded-xl overflow-hidden shadow-md p-4 flex justify-center items-center">
               <img
                 src={data.img}
                 alt={data.name}
@@ -73,6 +73,34 @@ const UserProductPage = () => {
               <Row justify={"end"} className="mt-5">
                 <Button type="primary">Add to cart</Button>
               </Row>
+            </div>
+          </div>
+          <div className="mt-30 w-full max-w-5xl">
+            <h3 className="text-2xl font-semibold mb-10 text-center">
+              Similar items
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+              {store.products
+                ?.filter((p) => p.id !== data.id)
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 3)
+                .map((product) => (
+                  <Link
+                    to={`/user/stores/${id}/product/${product.id}`}
+                    key={product.id}
+                    className="w-[300px] lg:w-[350px] h-fit  font-semibold  flex flex-col items-center text-center flex-1 mb-5"
+                  >
+                    <img
+                      src={product.img}
+                      alt={product.name}
+                      className="object-contain w-full h-48 mb-4"
+                    />
+                    <h4 className="font-semibold text-lg">{product.name}</h4>
+                    <p className="text-gray-600 mb-2">
+                      {getDiscountedPrice(product, store.discount)}$
+                    </p>
+                  </Link>
+                ))}
             </div>
           </div>
         </>

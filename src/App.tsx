@@ -6,7 +6,7 @@ import {
   EditStorePage,
   LoginPage,
   ProductPage,
-  RegisterPage,
+  // RegisterPage,
   StoreMenagerPage,
   StorePage,
   UserActionsPage,
@@ -23,7 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/user/stores/" replace />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
+        {/* <Route path="register/23121999" element={<RegisterPage />} /> */}
         <Route
           path="/admin"
           element={

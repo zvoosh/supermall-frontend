@@ -111,13 +111,18 @@ const UserStorePage = () => {
                   </div>
                 )}
                 <div className="w-[300px] lg:w-[350px] h-fit  font-semibold  flex flex-col items-center text-center flex-1 mb-5">
-                  <div className="w-full h-full bg-gray-200 flex items-center justify-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-pointer">
-                    <img src={product.img} alt={product.name}/>
-                  </div>
+                  <Link
+                    to={`/user/stores/${id}/product/${product.id}`}
+                    className="w-[300px] h-[300px] bg-gray-200 flex items-center justify-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-pointer"
+                  >
+                    <img
+                      src={product.img}
+                      alt={product.name}
+                      className="max-h-[300px]"
+                    />
+                  </Link>
                   <div className="text-center mt-5 cursor-auto">
-                    <Link
-                      to={`/user/stores/${id}/product/${product.id}`}
-                    >
+                    <Link to={`/user/stores/${id}/product/${product.id}`}>
                       <p className="text-xl flex gap-2 justify-center break-words ">
                         {product.name}
                       </p>
