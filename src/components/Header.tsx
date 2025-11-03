@@ -3,11 +3,15 @@ import { AutoComplete, Button, Input } from "antd";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { useProductsQuery } from "../api";
+import type { AutoCompleteProps } from "antd";
+
+type OptionType = Required<AutoCompleteProps>["options"][number];
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: products = [] } = useProductsQuery();
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState<OptionType[]>([]);
+
   const user = sessionStorage.getItem("admin");
 
   const handleSearch = (value: string) => {
@@ -16,7 +20,6 @@ const Header = () => {
         (product: {
           id: string;
           name: string;
-          img: string;
           price: number;
           discount: number;
           description: string;
@@ -27,17 +30,21 @@ const Header = () => {
         (product: {
           id: string;
           name: string;
-          img: string;
           price: number;
           discount: number;
           description: string;
           storeId: string;
+          img: string;
         }) => ({
-          value: product.name,
+          value: product.id.toString(),
           label: (
             <Link
-              to={user ? `/admin/stores/${product.storeId}/product/${product.id}` : `/user/stores/${product.storeId}/product/${product.id}`}
-              className="flex items-center gap-2"
+              to={
+                user
+                  ? `/admin/stores/${product.storeId}/product/${product.id}`
+                  : `/user/stores/${product.storeId}/product/${product.id}`
+              }
+              className="flex items-center gap-2 text-blue-700"
             >
               <img
                 src={product.img}
@@ -167,6 +174,7 @@ const Header = () => {
         >
           <Input.Search enterButton allowClear />
         </AutoComplete>
+
         {location.pathname !== "/admin/stores/" &&
           location.pathname !== "/user/stores/" && (
             <Button type="primary" onClick={() => navigate(-1)}>

@@ -10,7 +10,7 @@ const UploadMultiple = () => {
   const { id } = useParams();
 
   const handleSubmit = async () => {
-    if (!file) return message.warning("Please select a file first!");
+    if (!file) return message.warning("Please select a file!");
 
     const formData = new FormData();
     formData.append("file", file);

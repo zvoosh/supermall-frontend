@@ -102,7 +102,7 @@ const UserStorePage = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-10 mt-5">
+          <div className="flex flex-wrap justify-center gap-5 mt-5">
             {data.products.map((product, index) => (
               <div key={index} className="relative select-none">
                 {combinedDiscount(product.discount, data.discount) > 0 && (
@@ -110,11 +110,11 @@ const UserStorePage = () => {
                     -{combinedDiscount(product.discount, data.discount)}%
                   </div>
                 )}
-                <div className="w-fit h-fit font-semibold rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center flex-1 mb-5">
-                  <div className="w-50 2xl:w-[300px] 2xl:h-[300px] bg-gray-200 flex items-center justify-center">
-                    <img src={product.img} alt={product.name} />
+                <div className="w-[300px] lg:w-[350px] h-fit  font-semibold  flex flex-col items-center text-center flex-1 mb-5">
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-pointer">
+                    <img src={product.img} alt={product.name}/>
                   </div>
-                  <div className="text-center mt-5">
+                  <div className="text-center mt-5 cursor-auto">
                     <Link
                       to={`/user/stores/${id}/product/${product.id}`}
                     >
@@ -122,7 +122,7 @@ const UserStorePage = () => {
                         {product.name}
                       </p>
                       <p
-                        className={`mt-5 text-gray-400 text-sm sm:text-base lg:text-lg ${
+                        className={`mt-5 cursor-default text-gray-400 text-lg ${
                           product.discount || data.discount > 0
                             ? "line-through"
                             : ""
@@ -131,7 +131,7 @@ const UserStorePage = () => {
                         {product.price}$
                       </p>
                       <p
-                        className={`mt-1 text-green-600 text-md sm:text-base lg:text-xl ${
+                        className={`mt-1 cursor-default text-green-600 text-xl ${
                           product.discount || data.discount > 0
                             ? "block"
                             : "invisible"
