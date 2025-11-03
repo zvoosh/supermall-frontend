@@ -75,7 +75,7 @@ const UserProductPage = () => {
               </Row>
             </div>
           </div>
-          <div className="mt-30 w-full max-w-5xl">
+          <div className="mt-30 w-full max-w-5xl flex justify-center flex-col items-center">
             <h3 className="text-2xl font-semibold mb-10 text-center">
               Similar items
             </h3>
