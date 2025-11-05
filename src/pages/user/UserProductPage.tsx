@@ -1,11 +1,12 @@
 import { Button, Row, Spin } from "antd";
-import { Link, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useProductIdQuery, useStoreIdQuery } from "../../api";
 
 const UserProductPage = () => {
   const { productId, id } = useParams();
   const { data, isLoading } = useProductIdQuery(productId!);
   const { data: store, isLoading: load } = useStoreIdQuery(id!);
+  const navigate = useNavigate();
 
   const getDiscountedPrice = (
     product: {
@@ -85,10 +86,13 @@ const UserProductPage = () => {
                 .sort(() => Math.random() - 0.5)
                 .slice(0, 3)
                 .map((product) => (
-                  <Link
-                    to={`/user/stores/${id}/product/${product.id}`}
+                  <div
                     key={product.id}
-                    className="w-[300px] lg:w-[350px] h-fit  font-semibold  flex flex-col items-center text-center flex-1 mb-5"
+                    className="w-[300px] lg:w-[350px] h-fit  font-semibold  flex flex-col items-center text-center flex-1 mb-5 cursor-pointer"
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                      navigate(`/user/stores/${id}/product/${product.id}`);
+                    }}
                   >
                     <img
                       src={product.img}
@@ -99,7 +103,7 @@ const UserProductPage = () => {
                     <p className="text-gray-600 mb-2">
                       {getDiscountedPrice(product, store.discount)}$
                     </p>
-                  </Link>
+                  </div>
                 ))}
             </div>
           </div>

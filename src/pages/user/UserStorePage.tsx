@@ -1,5 +1,5 @@
 import { AutoComplete, Input, Spin } from "antd";
-import { Link, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useStoreIdQuery } from "../../api";
 import { useState, type JSX } from "react";
 
@@ -7,6 +7,8 @@ const UserStorePage = () => {
   const [options, setOptions] = useState<
     { value: string; label: JSX.Element }[]
   >([]);
+
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const { data, isLoading } = useStoreIdQuery(id!);
@@ -42,9 +44,12 @@ const UserStorePage = () => {
       .map((product) => ({
         value: product.name,
         label: (
-          <Link
-            to={`/user/stores/${id}/product/${product.id}`}
-            className="flex items-center gap-2"
+          <div
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              navigate(`/user/stores/${id}/product/${product.id}`);
+            }}
           >
             <img
               src={product.img}
@@ -52,7 +57,7 @@ const UserStorePage = () => {
               className="w-6 h-6 object-contain"
             />
             <span>{product.name}</span>
-          </Link>
+          </div>
         ),
       }));
 
@@ -111,18 +116,29 @@ const UserStorePage = () => {
                   </div>
                 )}
                 <div className="w-[300px] lg:w-[350px] h-fit  font-semibold  flex flex-col items-center text-center flex-1 mb-5">
-                  <Link
-                    to={`/user/stores/${id}/product/${product.id}`}
+                  <div
                     className="w-[300px] h-[300px] bg-gray-200 flex items-center justify-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-pointer"
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                      navigate(`/user/stores/${id}/product/${product.id}`);
+                    }}
                   >
                     <img
                       src={product.img}
                       alt={product.name}
                       className="max-h-[300px]"
                     />
-                  </Link>
+                  </div>
                   <div className="text-center mt-5 cursor-auto">
-                    <Link to={`/user/stores/${id}/product/${product.id}`}>
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        navigate(`/user/stores/${id}/product/${product.id}`, {
+                          state: id,
+                        });
+                      }}
+                    >
                       <p className="text-xl flex gap-2 justify-center break-words ">
                         {product.name}
                       </p>
@@ -144,7 +160,7 @@ const UserStorePage = () => {
                       >
                         {getDiscountedPrice(product, data.discount)}$
                       </p>
-                    </Link>
+                    </div>
                   </div>
                 </div>
               </div>

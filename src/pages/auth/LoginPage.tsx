@@ -16,9 +16,15 @@ const LoginPage = () => {
   const { mutate: loginAdmin, isSuccess } = useLoginAdminMutation();
 
   useEffect(() => {
-    if (isSuccess) {
-      navigate("/admin/stores/");
-      sessionStorage.setItem("admin", "loggedin");
+    const storedUser = sessionStorage.getItem("user");
+    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+    if (isSuccess && parsedUser.userData) {
+      if (parsedUser.userData.role === "admin") {
+        navigate("/admin/stores/");
+      }
+      if (parsedUser.userData.role === "user") {
+        navigate("/user/stores/");
+      }
     }
   }, [isSuccess]);
 
@@ -150,7 +156,7 @@ const LoginPage = () => {
                 </Col>
               </Row>
               <Row justify="end" className="flex gap-5 items-center">
-                {/* <Link to={"/register"}>Register</Link> */}
+                <Link to={"/register"}>Register</Link>
                 <Button htmlType="submit" type="primary">
                   Login
                 </Button>

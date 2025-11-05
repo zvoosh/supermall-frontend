@@ -1,6 +1,6 @@
 import { DeleteOutlined } from "@ant-design/icons";
 import { Col, Input, Row, Spin } from "antd";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useDeleteStoreMutation, useStoreQuery } from "../../api";
 import { useState } from "react";
 
@@ -10,6 +10,7 @@ const StoreMenagerPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useStoreQuery();
   const { mutate: deleteMutation } = useDeleteStoreMutation();
+  const navigate = useNavigate();
 
   const handleSearch = (value: string) => {
     setSearchTerm(value.toLowerCase());
@@ -43,7 +44,14 @@ const StoreMenagerPage = () => {
     <div className="flex flex-col gap-5 w-screen text-black p-5 pb-0 select-none">
       <Row justify={"end"} gutter={[12, 12]}>
         <Col xs={24} className="!text-end">
-          <Link to={"/admin/addstore"} className="text-blue-500">
+          <Link
+            to={"/admin/addstore"}
+            className="text-blue-500"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
             + add store
           </Link>
         </Col>
@@ -60,22 +68,19 @@ const StoreMenagerPage = () => {
       {filtered && filtered.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full p-4">
           {filtered?.map(
-            (
-              {
-                id,
-                name,
-                img,
-                category,
-                discount,
-              }: {
-                id: string;
-                name: string;
-                img: string;
-                category: string;
-                discount: number;
-              },
-            ) => (
-              <>
+            ({
+              id,
+              name,
+              img,
+              category,
+              discount,
+            }: {
+              id: string;
+              name: string;
+              img: string;
+              category: string;
+              discount: number;
+            }) => (
                 <div
                   key={id}
                   className="relative block group bg-white rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center"
@@ -85,7 +90,12 @@ const StoreMenagerPage = () => {
                       -{discount}%
                     </div>
                   )}
-                  <Link to={`/admin/stores/${id}`}>
+                  <div
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                      navigate(`/admin/stores/${id}`);
+                    }}
+                  >
                     <div className="w-28 h-28 2xl:w-40 2xl:h-40 flex justify-center items-center mb-4">
                       <img
                         src={img}
@@ -102,7 +112,7 @@ const StoreMenagerPage = () => {
                         {category}
                       </span>
                     </div>
-                  </Link>
+                  </div>
 
                   <div className="mt-4 flex justify-center">
                     <DeleteOutlined
@@ -114,7 +124,6 @@ const StoreMenagerPage = () => {
                     />
                   </div>
                 </div>
-              </>
             )
           )}
         </div>

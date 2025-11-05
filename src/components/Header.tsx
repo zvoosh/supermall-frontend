@@ -10,9 +10,13 @@ type OptionType = Required<AutoCompleteProps>["options"][number];
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: products = [] } = useProductsQuery();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [options, setOptions] = useState<OptionType[]>([]);
+  const user = sessionStorage.getItem("user");
+  const parsedData = user ? JSON.parse(user) : null;
 
-  const user = sessionStorage.getItem("admin");
+  const userData = parsedData.userData;
 
   const handleSearch = (value: string) => {
     const filtered = products
@@ -38,13 +42,17 @@ const Header = () => {
         }) => ({
           value: product.id.toString(),
           label: (
-            <Link
-              to={
-                user
-                  ? `/admin/stores/${product.storeId}/product/${product.id}`
-                  : `/user/stores/${product.storeId}/product/${product.id}`
-              }
-              className="flex items-center gap-2 text-blue-700"
+            <div
+              key={product.id}
+              className="flex items-center gap-2 text-blue-700 cursor-pointer"
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                navigate(
+                  user
+                    ? `/admin/stores/${product.storeId}/product/${product.id}`
+                    : `/user/stores/${product.storeId}/product/${product.id}`
+                );
+              }}
             >
               <img
                 src={product.img}
@@ -52,18 +60,13 @@ const Header = () => {
                 className="w-6 h-6 object-contain"
               />
               <span>{product.name}</span>
-            </Link>
+            </div>
           ),
         })
       );
 
     setOptions(filtered);
   };
-
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const isLoggedIn = sessionStorage.getItem("admin");
 
   return (
     <div className="w-full flex justify-between items-center p-5 bg-gray-700 text-center text-xl gap-5">
@@ -87,36 +90,29 @@ const Header = () => {
             <div className="font-semibold text-xl">Super mall Wally</div>
             <Link
               to={"/user/stores/"}
-              className={`${isLoggedIn === "loggedin" ? "hidden" : ""} ${
-                location.pathname.includes("/user/stores/")
+              className={`${userData.role === "admin" ? "hidden" : ""} ${
+                location.pathname === "/user/stores/"
                   ? "underline underline-offset-4"
                   : ""
               }`}
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => {
+                setIsMenuOpen(false);
+              }}
             >
-              All shops
+              Shops
             </Link>
             <Link
               to={"/user/actions/"}
-              className={`${isLoggedIn === "loggedin" ? "hidden" : ""} ${
-                location.pathname.includes("/user/actions/")
+              className={`${userData.role === "admin" ? "hidden" : ""} ${
+                location.pathname === "/user/actions/"
                   ? "underline underline-offset-4"
                   : ""
               }`}
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => {
+                setIsMenuOpen(false);
+              }}
             >
-              Actions
-            </Link>
-            <Link
-              to={"/user/cart/"}
-              className={`${isLoggedIn === "loggedin" ? "hidden" : ""} ${
-                location.pathname.includes("/user/cart/")
-                  ? "underline underline-offset-4"
-                  : ""
-              }`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Cart
+              Special Offers
             </Link>
           </div>
         </div>
@@ -133,35 +129,24 @@ const Header = () => {
           <Link
             to={"/user/stores/"}
             className={`${
-              isLoggedIn === "loggedin" ? "hidden" : ""
+              userData.role === "admin" ? "hidden" : ""
             } px-5 py-2 border cursor-pointer select-none ${
-              location.pathname.includes("/user/stores/") &&
+              location.pathname === "/user/stores/" &&
               "underline underline-offset-5"
             }`}
           >
-            All shops
+            Shops
           </Link>
           <Link
             to={"/user/actions/"}
             className={`${
-              isLoggedIn === "loggedin" ? "hidden" : ""
+              userData.role === "admin" ? "hidden" : ""
             } px-5 py-2 border cursor-pointer select-none ${
-              location.pathname.includes("/user/actions/") &&
+              location.pathname === "/user/actions/" &&
               "underline underline-offset-5"
             }`}
           >
-            Actions
-          </Link>
-          <Link
-            to={"/user/cart/"}
-            className={`${
-              isLoggedIn === "loggedin" ? "hidden" : ""
-            } px-5 py-2 border cursor-pointer select-none ${
-              location.pathname.includes("/user/cart/") &&
-              "underline underline-offset-5"
-            }`}
-          >
-            Cart
+            Special Offers
           </Link>
         </div>
       </div>
@@ -174,29 +159,23 @@ const Header = () => {
         >
           <Input.Search enterButton allowClear />
         </AutoComplete>
-
         {location.pathname !== "/admin/stores/" &&
           location.pathname !== "/user/stores/" && (
-            <Button type="primary" onClick={() => navigate(-1)}>
+            <Button
+              type="primary"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
               Back
             </Button>
           )}
-        {isLoggedIn !== "loggedin" ? (
-          <Button
-            type="primary"
-            onClick={() => {
-              navigate("/login");
-              sessionStorage.setItem("admin", "");
-            }}
-          >
-            Login
-          </Button>
-        ) : (
+        {userData.role && (
           <Button
             type="primary"
             onClick={() => {
               navigate("/");
-              sessionStorage.setItem("admin", "");
+              sessionStorage.setItem("user", JSON.stringify(null));
             }}
           >
             Logout

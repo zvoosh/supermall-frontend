@@ -15,6 +15,15 @@ import {
 } from "./hooks";
 import { message } from "antd";
 
+type UserType = {
+  uid: string;
+  fullname: string;
+  username: string;
+  password: string;
+  email: string;
+  role: string;
+};
+
 export const useRegisterAdminMutation = () => {
   return useMutation({
     mutationFn: async (adminData: {
@@ -29,9 +38,10 @@ export const useRegisterAdminMutation = () => {
 };
 
 export const useLoginAdminMutation = () => {
-  return useMutation({
-    mutationFn: async (adminData: { username: string; password: string }) => {
-      await loginHook(adminData);
+  return useMutation<UserType, Error, { username: string; password: string }>({
+    mutationFn: loginHook,
+    onSuccess: (user) => {
+      sessionStorage.setItem("user", JSON.stringify(user))
     },
   });
 };

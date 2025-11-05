@@ -1,6 +1,6 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { AutoComplete, Input, Spin } from "antd";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { useDeleteProductMutation, useStoreIdQuery } from "../../api";
 import { useState, type JSX } from "react";
 
@@ -8,6 +8,8 @@ const StorePage = () => {
   const [options, setOptions] = useState<
     { value: string; label: JSX.Element }[]
   >([]);
+
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -46,9 +48,12 @@ const StorePage = () => {
       .map((product) => ({
         value: product.name,
         label: (
-          <Link
-            to={`/admin/stores/${id}/product/${product.id}`}
+          <div
             className="flex items-center gap-2"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              navigate(`/admin/stores/${id}/product/${product.id}`);
+            }}
           >
             <img
               src={product.img}
@@ -56,7 +61,7 @@ const StorePage = () => {
               className="w-6 h-6 object-contain"
             />
             <span>{product.name}</span>
-          </Link>
+          </div>
         ),
       }));
 
@@ -94,7 +99,13 @@ const StorePage = () => {
             </div>
             <h1 className="text-2xl font-bold mt-1">
               {data.name}
-              <Link to={`/admin/editstore/${data.id}`}>
+              <Link
+                to={`/admin/editstore/${data.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
                 <EditOutlined className="!text-blue-500 !ml-2" />
               </Link>
             </h1>
@@ -106,6 +117,10 @@ const StorePage = () => {
             {/* Action links */}
             <div className="flex flex-col gap-2 items-end">
               <Link
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
                 to={`/admin/stores/${data.id}/addproduct`}
                 className="text-blue-500 hover:text-blue-700 w-fit transition"
               >
@@ -149,6 +164,10 @@ const StorePage = () => {
                     <Link
                       to={`/admin/stores/${id}/product/${product.id}`}
                       state={data.discount}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
                     >
                       <p className="text-xl flex gap-2 justify-center break-words ">
                         {product.name}

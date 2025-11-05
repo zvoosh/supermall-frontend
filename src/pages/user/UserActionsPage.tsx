@@ -1,11 +1,12 @@
 import { Col, Input, Row, Spin } from "antd";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import { useStoreQuery } from "../../api";
 import { useState } from "react";
 
 const UserActionsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useStoreQuery();
+  const navigate = useNavigate();
 
   const filtered =
     Array.isArray(data) && data.length > 0
@@ -42,10 +43,13 @@ const UserActionsPage = () => {
             {filtered
               ?.filter((obj) => obj.discount && obj.discount > 0)
               .map((obj) => (
-                <Link
+                <div
                   key={obj.id}
-                  to={`/user/stores/${obj.id}`}
-                  className="relative group bg-gray-50 rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center"
+                  className="relative cursor-pointer group bg-gray-50 rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center"
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    navigate(`/user/stores/${obj.id}`);
+                  }}
                 >
                   <div className="absolute top-3 right-3 bg-red-500 text-white text-xs sm:text-sm font-semibold px-3 py-1 rounded-full shadow-md">
                     -{obj.discount}%
@@ -67,7 +71,7 @@ const UserActionsPage = () => {
                       {obj.category}
                     </span>
                   </div>
-                </Link>
+                </div>
               ))}
           </div>
         </div>

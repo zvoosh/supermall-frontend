@@ -1,7 +1,7 @@
 import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 import { Col, Input, Row, Spin } from "antd";
 import { useState } from "react";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import { useStoreQuery } from "../../api";
 
 const categories = [
@@ -29,6 +29,7 @@ const UserStoresPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("all_shops");
   const [selectedFloor, setSelectedFloor] = useState<number | null>(null);
   const { data, isLoading } = useStoreQuery();
+  const navigate = useNavigate();
 
   const filtered =
     Array.isArray(data) && data.length > 0
@@ -146,10 +147,13 @@ const UserStoresPage = () => {
                   category: string;
                   discount: number;
                 }) => (
-                  <Link
+                  <div
                     key={id}
-                    to={`/user/stores/${id}`}
-                    className="relative group bg-gray-50 rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center"
+                    className="relative group bg-gray-50 cursor-pointer rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center"
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                      navigate(`/user/stores/${id}`);
+                    }}
                   >
                     {discount > 0 && (
                       <div className="absolute top-3 right-3 bg-red-500 text-white text-xs sm:text-sm font-semibold px-3 py-1 rounded-full shadow-md z-10">
@@ -173,7 +177,7 @@ const UserStoresPage = () => {
                         {category}
                       </span>
                     </div>
-                  </Link>
+                  </div>
                 )
               )}
             </div>

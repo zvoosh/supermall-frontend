@@ -6,11 +6,10 @@ import {
   EditStorePage,
   LoginPage,
   ProductPage,
-  // RegisterPage,
+  RegisterPage,
   StoreMenagerPage,
   StorePage,
   UserActionsPage,
-  UserCartPage,
   UserProductPage,
   UserStorePage,
   UserStoresPage,
@@ -23,7 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/user/stores/" replace />} />
         <Route path="/login" element={<LoginPage />} />
-        {/* <Route path="register/23121999" element={<RegisterPage />} /> */}
+        <Route path="register" element={<RegisterPage />} />
         <Route
           path="/admin"
           element={
@@ -42,7 +41,14 @@ function App() {
           <Route path="addstore" element={<AddStorePage />} />
           <Route path="editstore/:id" element={<EditStorePage />} />
         </Route>
-        <Route path="/user" element={<PageLayout />}>
+        <Route
+          path="/user"
+          element={
+            <ProtectedRoute>
+              <PageLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="stores" element={<UserStoresPage />} />
           <Route path="stores/:id" element={<UserStorePage />} />
           <Route
@@ -50,7 +56,6 @@ function App() {
             element={<UserProductPage />}
           />
           <Route path="actions" element={<UserActionsPage />} />
-          <Route path="cart" element={<UserCartPage />} />
         </Route>
       </Routes>
     </div>

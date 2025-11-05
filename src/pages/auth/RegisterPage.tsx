@@ -3,15 +3,23 @@ import {
   InstagramOutlined,
   TwitterOutlined,
 } from "@ant-design/icons";
-import { Button, Carousel, Col, Form, Input, Row } from "antd";
-import { Link } from "react-router";
+import { Button, Carousel, Col, Form, Input, Row, Select } from "antd";
+import { Link, useNavigate } from "react-router";
 import motherImage from "/images/mother.png";
 import shoppingImage from "/images/shopping.png";
 import { useRegisterAdminMutation } from "../../api";
+import { useEffect } from "react";
 const RegisterPage = () => {
   const [register] = Form.useForm();
+  const navigate = useNavigate();
 
-  const { mutate: registerAdmin } = useRegisterAdminMutation();
+  const { mutate: registerAdmin, isSuccess } = useRegisterAdminMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/login");
+    }
+  }, [isSuccess]);
 
   const onFinish = (values: {
     fullname: string;
@@ -132,11 +140,37 @@ const RegisterPage = () => {
                             incorrect
                           </span>
                         ),
-                        len: 6,
+                        min: 6,
                       },
                     ]}
                   >
                     <Input placeholder="Password" type="password" />
+                  </Form.Item>
+                </Col>
+                <Col xs={24}>
+                  <Form.Item
+                    label={<span className="text-black">Role:</span>}
+                    name="role"
+                    colon={false}
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                  >
+                    <Select
+                      placeholder="Role..."
+                      options={[
+                        {
+                          label: "Admin",
+                          value: "admin",
+                        },
+                        {
+                          label: "User",
+                          value: "user",
+                        },
+                      ]}
+                    />
                   </Form.Item>
                 </Col>
                 <Row justify="end" className="flex gap-5 items-center">
@@ -230,11 +264,37 @@ const RegisterPage = () => {
                           Password must be at least 6 characters or is incorrect
                         </span>
                       ),
-                      len: 6,
+                      min: 6,
                     },
                   ]}
                 >
                   <Input placeholder="Password" type="password" />
+                </Form.Item>
+              </Col>
+              <Col xs={24}>
+                <Form.Item
+                  label={<span className="text-black">Role:</span>}
+                  name="role"
+                  colon={false}
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Select
+                    placeholder="Role..."
+                    options={[
+                      {
+                        label: "Admin",
+                        value: "admin",
+                      },
+                      {
+                        label: "User",
+                        value: "user",
+                      },
+                    ]}
+                  />
                 </Form.Item>
               </Col>
               <Row justify="end" className="flex gap-5 items-center">
