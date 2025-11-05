@@ -40,7 +40,7 @@ const Header = () => {
           storeId: string;
           img: string;
         }) => ({
-          value: product.id.toString(),
+          value: product.name.toString(),
           label: (
             <div
               key={product.id}
@@ -48,7 +48,7 @@ const Header = () => {
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
                 navigate(
-                  user
+                  userData.role === "admin"
                     ? `/admin/stores/${product.storeId}/product/${product.id}`
                     : `/user/stores/${product.storeId}/product/${product.id}`
                 );
