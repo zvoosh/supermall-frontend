@@ -117,10 +117,6 @@ const StorePage = () => {
             {/* Action links */}
             <div className="flex flex-col gap-2 items-end">
               <Link
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
                 to={`/admin/stores/${data.id}/addproduct`}
                 className="text-blue-500 hover:text-blue-700 w-fit transition"
               >
