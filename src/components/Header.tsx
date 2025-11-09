@@ -40,7 +40,7 @@ const Header = () => {
           storeId: string;
           img: string;
         }) => ({
-          value: product.id.toString(),
+          value: `${product.name}-${product.id}`,
           label: (
             <div
               key={product.id}
