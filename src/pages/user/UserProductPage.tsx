@@ -1,6 +1,7 @@
 import { Button, Row, Spin } from "antd";
 import { useNavigate, useParams } from "react-router";
 import { useProductIdQuery, useStoreIdQuery } from "../../api";
+import type { TProduct } from "../../types/types";
 
 const UserProductPage = () => {
   const { productId, id } = useParams();
@@ -8,17 +9,7 @@ const UserProductPage = () => {
   const { data: store, isLoading: load } = useStoreIdQuery(id!);
   const navigate = useNavigate();
 
-  const getDiscountedPrice = (
-    product: {
-      id: string;
-      name: string;
-      img: string;
-      price: number;
-      discount: number;
-      description: string;
-    },
-    storeDiscount = 0
-  ) => {
+  const getDiscountedPrice = (product: TProduct, storeDiscount = 0) => {
     const base = product.price;
     const productDiscount = product.discount || 0;
 
@@ -40,7 +31,7 @@ const UserProductPage = () => {
           <div className="w-4/5 flex flex-col lg:flex-row items-center justify-center gap-6 2xl:mt-15">
             <div className="w-full lg:w-1/2 xl:w-[800px] xl:h-[500px] bg-gray-100 rounded-xl overflow-hidden shadow-md p-4 flex justify-center items-center">
               <img
-                src={data.img}
+                src={data.img as string}
                 alt={data.name}
                 className="object-contain w-full h-full"
               />
@@ -95,7 +86,7 @@ const UserProductPage = () => {
                     }}
                   >
                     <img
-                      src={product.img}
+                      src={product.img as string}
                       alt={product.name}
                       className="object-contain w-full h-48 mb-4"
                     />

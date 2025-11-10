@@ -47,10 +47,6 @@ const StoreMenagerPage = () => {
           <Link
             to={"/admin/addstore"}
             className="text-blue-500"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
           >
             + add store
           </Link>
@@ -117,8 +113,7 @@ const StoreMenagerPage = () => {
                   <div className="mt-4 flex justify-center">
                     <DeleteOutlined
                       className="!text-red-500 text-xl opacity-70 hover:opacity-100 hover:scale-110 transition-all duration-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
+                      onClick={() => {
                         onDelete(id);
                       }}
                     />

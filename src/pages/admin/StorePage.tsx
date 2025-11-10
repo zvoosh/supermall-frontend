@@ -3,6 +3,7 @@ import { AutoComplete, Input, Spin } from "antd";
 import { Link, useNavigate, useParams } from "react-router";
 import { useDeleteProductMutation, useStoreIdQuery } from "../../api";
 import { useState, type JSX } from "react";
+import type { TProduct } from "../../types/types";
 
 const StorePage = () => {
   const [options, setOptions] = useState<
@@ -17,14 +18,7 @@ const StorePage = () => {
   const { mutate: deleteProductMutation } = useDeleteProductMutation();
 
   const getDiscountedPrice = (
-    product: {
-      id: string;
-      name: string;
-      img: string;
-      price: number;
-      discount: number;
-      description: string;
-    },
+    product: TProduct,
     storeDiscount = 0
   ) => {
     const base = product.price;
@@ -56,7 +50,7 @@ const StorePage = () => {
             }}
           >
             <img
-              src={product.img}
+              src={product.img as string}
               alt={product.name}
               className="w-6 h-6 object-contain"
             />
@@ -92,7 +86,7 @@ const StorePage = () => {
           <div className="flex justify-center items-center flex-col">
             <div className="w-28 h-28 lg:w-40 lg:h-40 flex justify-center items-center mb-4">
               <img
-                src={data.img}
+                src={data.img as string}
                 alt={data.name}
                 className="object-contain w-full h-full group-hover:scale-110 transition-transform duration-300"
               />
@@ -100,11 +94,7 @@ const StorePage = () => {
             <h1 className="text-2xl font-bold mt-1">
               {data.name}
               <Link
-                to={`/admin/editstore/${data.id}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
+                to={`/admin/editstore/${data.id as string}`}
               >
                 <EditOutlined className="!text-blue-500 !ml-2" />
               </Link>
@@ -150,7 +140,7 @@ const StorePage = () => {
                 <div className="w-fit h-fit font-semibold rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center flex-1 mb-5">
                   <div className="w-50 2xl:w-[300px] 2xl:h-[300px] bg-gray-200 flex items-center justify-center">
                     <img
-                      src={product.img}
+                      src={product.img as string}
                       alt={product.name}
                       className="max-w-full max-h-full"
                     />
@@ -160,10 +150,7 @@ const StorePage = () => {
                     <Link
                       to={`/admin/stores/${id}/product/${product.id}`}
                       state={data.discount}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                      }}
+                      
                     >
                       <p className="text-xl flex gap-2 justify-center break-words ">
                         {product.name}
@@ -190,9 +177,8 @@ const StorePage = () => {
                   </div>
                   <DeleteOutlined
                     className="!text-red-500 mt-2"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDelete(product.id);
+                    onClick={() => {
+                      onDelete(product.id as string);
                     }}
                   />
                 </div>

@@ -14,6 +14,7 @@ import {
   registerHook,
 } from "./hooks";
 import { message } from "antd";
+import type { TStoreProducts, TStore, TUser, TProduct, TEditProduct, TEditStore } from "../types/types";
 
 type UserType = {
   uid: string;
@@ -26,12 +27,7 @@ type UserType = {
 
 export const useRegisterAdminMutation = () => {
   return useMutation({
-    mutationFn: async (adminData: {
-      fullname: string;
-      username: string;
-      password: string;
-      email: string;
-    }) => {
+    mutationFn: async (adminData: TUser) => {
       registerHook(adminData);
     },
   });
@@ -72,14 +68,7 @@ export const useProductsQuery = () => {
 export const useStoreMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (object: {
-      name: string;
-      category: string;
-      subcategory: string;
-      discount: number;
-      img: File;
-      floor: number;
-    }) => {
+    mutationFn: async (object: TStore) => {
       addStore(object);
     },
     onSuccess: () => {
@@ -90,23 +79,7 @@ export const useStoreMutation = () => {
 };
 
 export const useStoreIdQuery = (id: string) => {
-  return useQuery<{
-    category: string;
-    discount: number;
-    floor: number;
-    id: string;
-    img: string;
-    name: string;
-    products: {
-      id: string;
-      name: string;
-      img: string;
-      price: number;
-      discount: number;
-      description: string;
-    }[];
-    subcategory: string;
-  }>({
+  return useQuery<TStoreProducts>({
     queryKey: ["stores", id],
     queryFn: async () => {
       return fetchStoreById(id);
@@ -120,14 +93,7 @@ export const useStoreIdQuery = (id: string) => {
 export const useProductMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (object: {
-      name: string;
-      img: File;
-      price: number;
-      discount: number;
-      description: string;
-      storeId: string;
-    }) => {
+    mutationFn: async (object: TProduct) => {
       await addProduct(object);
       return object;
     },
@@ -141,14 +107,7 @@ export const useProductMutation = () => {
 };
 
 export const useProductIdQuery = (id: string) => {
-  return useQuery<{
-    id: string;
-    name: string;
-    img: string;
-    price: number;
-    discount: number;
-    description: string;
-  }>({
+  return useQuery<TProduct>({
     queryKey: ["product", id],
     queryFn: async () => fetchProductById(id),
     staleTime: 5 * 60 * 1000,
@@ -160,13 +119,7 @@ export const useProductIdQuery = (id: string) => {
 export const useEditProductMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (object: {
-      id: string;
-      name: string;
-      price: number;
-      discount: number;
-      description: string;
-    }) => {
+    mutationFn: async (object: TEditProduct) => {
       return await editProduct(object);
     },
     onSuccess: (object) => {
@@ -180,15 +133,7 @@ export const useEditProductMutation = () => {
 export const useEditStoreMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (object: {
-      id: string;
-      name: string;
-      category: string;
-      subcategory: string;
-      discount: number;
-      img?: File;
-      floor: number;
-    }) => {
+    mutationFn: async (object: TEditStore) => {
       return await editStore(object);
     },
     onSuccess: (object) => {

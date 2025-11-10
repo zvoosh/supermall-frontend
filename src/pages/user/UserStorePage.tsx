@@ -2,6 +2,7 @@ import { AutoComplete, Input, Spin } from "antd";
 import { useNavigate, useParams } from "react-router";
 import { useStoreIdQuery } from "../../api";
 import { useState, type JSX } from "react";
+import type { TProduct } from "../../types/types";
 
 const UserStorePage = () => {
   const [options, setOptions] = useState<
@@ -13,14 +14,7 @@ const UserStorePage = () => {
   const { id } = useParams();
   const { data, isLoading } = useStoreIdQuery(id!);
   const getDiscountedPrice = (
-    product: {
-      id: string;
-      name: string;
-      img: string;
-      price: number;
-      discount: number;
-      description: string;
-    },
+    product: TProduct,
     storeDiscount = 0
   ) => {
     const base = product.price;
@@ -52,7 +46,7 @@ const UserStorePage = () => {
             }}
           >
             <img
-              src={product.img}
+              src={product.img as string}
               alt={product.name}
               className="w-6 h-6 object-contain"
             />
@@ -81,7 +75,7 @@ const UserStorePage = () => {
           <div className="flex justify-center items-center flex-col">
             <div className="w-28 h-28 lg:w-40 lg:h-40 flex justify-center items-center mb-4">
               <img
-                src={data.img}
+                src={data.img as string}
                 alt={data.name}
                 className="object-contain w-full h-full group-hover:scale-110 transition-transform duration-300"
               />
@@ -124,7 +118,7 @@ const UserStorePage = () => {
                     }}
                   >
                     <img
-                      src={product.img}
+                      src={product.img as string}
                       alt={product.name}
                       className="max-h-[300px]"
                     />
