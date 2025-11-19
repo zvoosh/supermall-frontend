@@ -11,8 +11,7 @@ A modern **React + TypeScript** frontend for an shopping mall application. Built
 - [Demo / Screenshot](#demo--screenshot)  
 - [Getting Started](#getting-started)  
   - [Prerequisites](#prerequisites)  
-  - [Installation](#installation) 
-- [Usage](#usage)
+  - [Installation](#installation)
 - [Deployment](#deployment)
 ---
 
