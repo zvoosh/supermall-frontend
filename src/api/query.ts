@@ -39,6 +39,9 @@ export const useLoginAdminMutation = () => {
     onSuccess: (user) => {
       sessionStorage.setItem("user", JSON.stringify(user))
     },
+    onError: () => {
+      message.error(`Login failed. Please check your credentials and try again.`);
+    }
   });
 };
 
@@ -53,6 +56,7 @@ export const useStoreQuery = () => {
     retry: 1,
   });
 };
+
 export const useProductsQuery = () => {
   return useQuery({
     queryKey: ["products"],

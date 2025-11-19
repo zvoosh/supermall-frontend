@@ -1,4 +1,4 @@
-import { Button, Row, Spin } from "antd";
+import { Spin } from "antd";
 import { useNavigate, useParams } from "react-router";
 import { useProductIdQuery, useStoreIdQuery } from "../../api";
 import type { TProduct } from "../../types/types";
@@ -62,9 +62,6 @@ const UserProductPage = () => {
               <p className="text-gray-700 text-sm sm:text-base lg:text-lg xl:w-3/5">
                 {data.description}
               </p>
-              <Row justify={"end"} className="mt-5">
-                <Button type="primary">Add to cart</Button>
-              </Row>
             </div>
           </div>
           <div className="mt-30 w-full max-w-5xl flex justify-center flex-col items-center">
