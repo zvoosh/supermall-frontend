@@ -11,15 +11,9 @@ A modern **React + TypeScript** frontend for an shopping mall application. Built
 - [Demo / Screenshot](#demo--screenshot)  
 - [Getting Started](#getting-started)  
   - [Prerequisites](#prerequisites)  
-  - [Installation](#installation)  
-  - [Development](#development)  
-  - [Build / Production](#build--production)  
-- [Project Structure](#project-structure)  
-- [Scripts](#scripts)  
-- [Contributing](#contributing)  
-- [License](#license)  
-- [Contact](#contact)  
-
+  - [Installation](#installation) 
+- [Usage](#usage)
+- [Deployment](#deployment)
 ---
 
 ## Features
@@ -76,3 +70,10 @@ cd supermall-frontend
 npm install
 # or
 yarn install
+```
+
+## Deployment
+The project is hosted on Hostinger and can be viewed on domain: https://supermall.dusanprogram.eu
+
+---
+Built with ❤️ by zvoosh.
